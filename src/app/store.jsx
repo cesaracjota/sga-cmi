@@ -5,7 +5,6 @@ import fraseReducer from "../features/fraseSlice";
 import usuarioReducer from "../features/usuarioSlice";
 import libroReducer from "../features/libroSlice";
 import gradoReducer from "../features/gradoSlice";
-import modalidadReducer from "../features/modalidadSlice";
 import uniformeReducer from "../features/uniformeSlice";
 import categoriaUniformeReducer from "../features/categoriaUniformeSlice";
 import inmobiliarioReducer from "../features/inmobiliarioSlice";
@@ -34,7 +33,6 @@ export const store = configureStore({
         usuarios : usuarioReducer,
         libros: libroReducer,
         grados: gradoReducer,
-        modalidades: modalidadReducer,
         uniformes: uniformeReducer,
         categoria_uniformes: categoriaUniformeReducer,
         inmobiliarios: inmobiliarioReducer,

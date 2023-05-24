@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { 
     Button,
     FormControl, 
@@ -23,38 +23,17 @@ import {
     Tooltip
 } from '@chakra-ui/react'
 import { VscAdd } from 'react-icons/vsc'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { createLibro } from '../../features/libroSlice';
 import { RiRefreshLine } from 'react-icons/ri';
 import ModalAgregarGrado from '../grados/ModalAgregarGrado';
-import { ToastChakra } from '../../helpers/toast';
-import { getModalidades, reset } from '../../features/modalidadSlice';
-import { useNavigate } from 'react-router-dom';
 
 const ModalAgregarLibro = ({ grados }) => {
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const { modalidades, isError, message } = useSelector((state) => state.modalidades);
     
-    if(isError) {
-        ToastChakra('Error', message, 'error', 1500);
-        console.log(message);
-    }
-
-    useEffect(() => {
-
-        dispatch(getModalidades())
-
-        return () => {
-            dispatch(reset())
-        }
-
-    }, [navigate, dispatch]);
-
     const initialValues = {
         titulo: '',
         nombre: '',
@@ -186,7 +165,7 @@ const ModalAgregarLibro = ({ grados }) => {
                                                         </option>
                                                 ))}
                                             </Select>
-                                            <ModalAgregarGrado  modalidades = { modalidades } />
+                                            <ModalAgregarGrado />
                                         </Stack>
                                     </FormControl>
                                 </Stack>

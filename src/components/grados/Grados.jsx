@@ -11,7 +11,6 @@ import { FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight } from '
 import { customStyles } from '../../helpers/customStyles';
 import { getGrados, reset } from '../../features/gradoSlice';
 import ModalAgregarGrado from './ModalAgregarGrado';
-import { getModalidades } from '../../features/modalidadSlice';
 import ModalEditarGrado from './ModalEditarGrado';
 import '../../theme/solarizedTheme';
 import { Loading } from '../../helpers/Loading';
@@ -26,8 +25,6 @@ const Grados = () => {
     const { user } = useSelector((state) => state.auth);
 
     const { grados, isLoading, isError, message } = useSelector((state) => state.grados);
-
-    const { modalidades } = useSelector((state) => state.modalidades);
 
     const [modalidad, setModalidad] = useState('TODOS');
 
@@ -52,8 +49,6 @@ const Grados = () => {
         }
 
         dispatch(getGrados())
-
-        dispatch(getModalidades())
 
         return () => {
             dispatch(reset())
@@ -130,7 +125,7 @@ const Grados = () => {
             center: true,
             cell: row => (
                 <div>
-                    <ModalEditarGrado row={row} modalidades={modalidades} />
+                    <ModalEditarGrado row={row} />
                     <AlertEliminar row={row} />
                 </div>
             ),
@@ -150,7 +145,7 @@ const Grados = () => {
     return (
         <>
             <Stack spacing={4} direction="row" justifyContent="space-between" py={4}>
-                <ModalAgregarGrado modalidades={modalidades} />
+                <ModalAgregarGrado />
                 <HStack spacing={4} direction="row">
                     <Checkbox
                         value="EBR"
