@@ -4,9 +4,7 @@ import {
   Stack,
   Heading,
   SimpleGrid,
-  Icon,
   Text,
-  Button,
   Image,
   Divider,
   useColorModeValue,
@@ -125,7 +123,7 @@ const columns = [
       justifyContent="center"
     >
       <Stack spacing={4} w="full" direction={'column'}>
-        <Heading fontWeight="extrabold" fontSize={{ base: "sm", lg: "3xl" }}>
+        <Heading fontWeight="extrabold" fontSize={{ base: "md", lg: "2xl" }}>
           SGA - Dashboard
         </Heading>
         <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={2}>
@@ -214,7 +212,7 @@ const columns = [
 
 export default Home;
 
-const CardHome = ({ montoRecaudado, textHeader, textButton, cardImage }) => {
+const CardHome = ({ montoRecaudado, textHeader, cardImage }) => {
 
   const textColor = useColorModeValue('gray.700', 'gray.100');
 
@@ -226,7 +224,7 @@ const CardHome = ({ montoRecaudado, textHeader, textButton, cardImage }) => {
       rounded={'2xl'}
       p={2}
     >
-      <Stack spacing={4} align={'center'} p={2} direction="row">
+      <Stack spacing={4} align={'center'} px={2} py={5} direction="row">
         <Image
           src={cardImage}
           boxSize={{
@@ -236,13 +234,13 @@ const CardHome = ({ montoRecaudado, textHeader, textButton, cardImage }) => {
           }}
         />
         <Stack direction="column" spacing={0}>
-          <Text color={'gray.500'} fontSize="xs" noOfLines={1}>{textHeader}</Text>
+          <Text color={textColor} fontSize="xs" noOfLines={1}>{textHeader}</Text>
           <Text fontWeight={600} color={textColor} fontSize={{ base: 'md', md: 'lg', lg: '2xl' }}>
             S/{montoRecaudado}
           </Text>
         </Stack>
-      </Stack>
-      <Divider />
+      {/* </Stack> */}
+      {/* <Divider />
       <Stack p={1}>
         <Stack spacing={0} align={'start'}>
           <Button
@@ -259,7 +257,7 @@ const CardHome = ({ montoRecaudado, textHeader, textButton, cardImage }) => {
           >
             {textButton}
           </Button>
-        </Stack>
+        </Stack> */}
       </Stack>
     </Stack>
   )

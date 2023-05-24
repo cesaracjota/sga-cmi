@@ -13,6 +13,7 @@ import jsPDF from 'jspdf';
 import { Loading } from '../../../helpers/Loading';
 import { BsPrinterFill, BsFillCloudDownloadFill, BsFillImageFill, BsPrinter } from 'react-icons/bs';
 import { MdAttachEmail } from 'react-icons/md';
+// import { renderToString } from 'react-dom/server';
 // import { Print } from 'react-print';
 
 const BoletaPago = ({ location }) => {
@@ -290,7 +291,6 @@ const BoletaPago = ({ location }) => {
                 display={'flex'}
                 justifyContent={'center'}
                 alignItems={'center'}
-                borderRadius={'2xl'}
                 mt={2}
                 p={10}
             >
@@ -298,7 +298,7 @@ const BoletaPago = ({ location }) => {
                     <Stack direction='column' h={'auto'} w="full" justifyContent="space-evenly" fontFamily={'Arial, Helvetica, sans-serif'} alignItems={'center'} alignSelf={'center'} spacing={4} display={'flex'}>
                         <Stack direction={'row'} justifyContent="space-between" display={'flex'} w="full">
                             <Image objectFit='cover' src={logoIE} maxW={'90px'} fallbackSrc='https://via.placeholder.com/100x100?text=LOGO' alt={pago?.nombre} alignSelf={'center'} />
-                            <Stack direction="column" spacing={8} border={'2px solid black'} _dark={{ border: '2px solid gray' }} p={{ base: 3, lg: 4 }} alignItems={'center'}>
+                            <Stack direction="column" spacing={8} border={'2px solid black'} p={{ base: 3, lg: 4 }} alignItems={'center'}>
                                 <Text fontSize={'20px'} fontWeight={'bold'} fontFamily={'Arial, Helvetica, sans-serif'}>BOLETA ELECTRÓNICA</Text>
                                 {/* <Text fontSize={'14px'}>RUC: S/N</Text> */}
                                 <Text fontSize={'18px'}>N° {pago?.codigo}</Text>
@@ -372,39 +372,29 @@ const BoletaPago = ({ location }) => {
                                     <TableCaption border={'2px'} color={'black'} fontFamily={'Arial, Helvetica, sans-serif'}>El monto de la boleta no incluye el impuesto sobre las ventas.</TableCaption>
                                     <Thead py={2}>
                                         <Tr>
-                                            <Th color={'black'} fontSize={'lg'} fontWeight={'bold'} fontFamily={'Arial, Helvetica, sans-serif'}>CANTIDAD</Th>
-                                            <Th color={'black'} fontSize={'lg'} fontWeight={'bold'} fontFamily={'Arial, Helvetica, sans-serif'} >DESCRIPCIÓN</Th>
+                                            <Th color={'black'} fontSize={'md'} fontWeight={'bold'} fontFamily={'Arial, Helvetica, sans-serif'}>CANTIDAD</Th>
+                                            <Th color={'black'} fontSize={'md'} fontWeight={'bold'} fontFamily={'Arial, Helvetica, sans-serif'} >DESCRIPCIÓN</Th>
                                             {
                                                 conceptoEsMensualidad?.length > 0 ? (
-                                                    <Th color={'black'} fontSize={'lg'} fontWeight={'bold'} fontFamily={'Arial, Helvetica, sans-serif'} >MESES</Th>
+                                                    <Th color={'black'} fontSize={'md'} fontWeight={'bold'} fontFamily={'Arial, Helvetica, sans-serif'} >MESES</Th>
                                                 ) : null
                                             }
-                                            <Th color={'black'} fontSize={'lg'} fontWeight={'bold'} isNumeric fontFamily={'Arial, Helvetica, sans-serif'} >IMPORTE</Th>
+                                            <Th color={'black'} fontSize={'md'} fontWeight={'bold'} isNumeric fontFamily={'Arial, Helvetica, sans-serif'} >IMPORTE</Th>
                                         </Tr>
                                     </Thead>
                                     <Tbody py={2}>
                                         <Tr textAlign={'right'} border={'2px'}>
-                                            <Td fontSize='lg' fontFamily={'Arial, Helvetica, sans-serif'}>{pago?.concepto?.length}.00</Td>
-                                            <Td fontSize='lg' fontFamily={'Arial, Helvetica, sans-serif'}>{pago?.concepto?.map(data => data?.label).join(', ')}</Td>
+                                            <Td fontSize='sm' fontFamily={'Arial, Helvetica, sans-serif'}>{pago?.concepto?.length}.00</Td>
+                                            <Td fontSize='sm' fontFamily={'Arial, Helvetica, sans-serif'}>{pago?.concepto?.map(data => data?.label).join(', ')}</Td>
                                             {
                                                 conceptoEsMensualidad?.length > 0 ? (
-                                                    <Td fontSize='lg' fontFamily={'Arial, Helvetica, sans-serif'} >{pago?.meses?.map(data => data).join(', ')}</Td>
+                                                    <Td fontSize='sm' fontFamily={'Arial, Helvetica, sans-serif'} >{pago?.meses?.map(data => data).join(', ')}</Td>
                                                 ) : null
                                             }
-                                            <Td color={'black'} isNumeric fontSize='lg' fontWeight={'normal'} fontFamily={'Arial, Helvetica, sans-serif'}>S/{pago?.importe}.00</Td>
+                                            <Td color={'black'} isNumeric fontSize='sm' fontWeight={'normal'} fontFamily={'Arial, Helvetica, sans-serif'}>S/{pago?.importe}.00</Td>
                                         </Tr>
                                     </Tbody>
                                     <Tfoot mt={4}>
-                                        <Tr mt={4}>
-                                            {
-                                                conceptoEsMensualidad?.length > 0 ? (
-                                                    <Th></Th>
-                                                ) : null
-                                            }
-                                            <Th></Th>
-                                            <Th color={'black'} fontWeight={'bold'} fontSize={'lg'} fontFamily={'Arial, Helvetica, sans-serif'}> Total Valor de Venta:</Th>
-                                            <Th color={'black'} isNumeric fontSize='lg' fontWeight={'normal'} fontFamily={'Arial, Helvetica, sans-serif'}>S/{pago?.importe}.00</Th>
-                                        </Tr>
                                         <Tr mt={4} border={'2px'}>
                                             {
                                                 conceptoEsMensualidad?.length > 0 ? (
@@ -412,8 +402,8 @@ const BoletaPago = ({ location }) => {
                                                 ) : null
                                             }
                                             <Th></Th>
-                                            <Th color={'black'} fontSize='lg' fontWeight={'bold'} fontFamily={'Arial, Helvetica, sans-serif'} > IGV:</Th>
-                                            <Th color={'black'} isNumeric fontSize='lg' fontWeight={'normal'} fontFamily={'Arial, Helvetica, sans-serif'}>S/0.00</Th>
+                                            <Th color={'black'} fontSize='md' fontWeight={'bold'} fontFamily={'Arial, Helvetica, sans-serif'} > IGV:</Th>
+                                            <Th color={'black'} isNumeric fontSize='sm' fontWeight={'normal'} fontFamily={'Arial, Helvetica, sans-serif'}>S/0.00</Th>
                                         </Tr>
                                         <Tr mt={4}>
                                             {
@@ -422,8 +412,8 @@ const BoletaPago = ({ location }) => {
                                                 ) : null
                                             }
                                             <Th></Th>
-                                            <Th color={'black'} fontSize='lg' fontWeight={'bold'} fontFamily={'Arial, Helvetica, sans-serif'}> IMPORTE TOTAL:</Th>
-                                            <Th color={'black'} isNumeric fontSize='lg' fontWeight={'normal'} fontFamily={'Arial, Helvetica, sans-serif'}>S/{pago?.importe}.00</Th>
+                                            <Th color={'black'} fontSize='md' fontWeight={'bold'} fontFamily={'Arial, Helvetica, sans-serif'}> IMPORTE TOTAL:</Th>
+                                            <Th color={'black'} isNumeric fontSize='sm' fontWeight={'normal'} fontFamily={'Arial, Helvetica, sans-serif'}>S/{pago?.importe}.00</Th>
                                         </Tr>
                                     </Tfoot>
                                 </Table>

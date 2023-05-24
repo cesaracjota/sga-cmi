@@ -22,7 +22,7 @@ import {
     Stack,
     Textarea,
     Tooltip,
-    useColorModeValue
+    useColorModeValue,
 } from '@chakra-ui/react'
 import { VscAdd } from 'react-icons/vsc'
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,6 +33,7 @@ import { createPago } from '../../../features/pagos/EBR/pagoSlice';
 import { Select } from "chakra-react-select";
 import { useNavigate } from 'react-router-dom';
 import { getUniformes, reset } from '../../../features/uniformeSlice';
+import { handleSendEmail } from '../../../features/sendEmailSlice';
 
 const ModalRegistrarPago = () => {
 
@@ -43,11 +44,11 @@ const ModalRegistrarPago = () => {
     const [openModalSearch, setOpenModalSearch] = useState(false);
     const { uniformes, isError, message } = useSelector((state) => state.uniformes);
     const { user } = useSelector((state) => state.auth);
-    
+
     const uniformesFilter = uniformes.filter(
         (uniforme) => (uniforme.cantidad !== 0 && uniforme.estado === true)
     );
-    
+
     useEffect(() => {
 
         if (!user) {
@@ -115,11 +116,77 @@ const ModalRegistrarPago = () => {
                 setDatosEstudiante([]);
             }
         });
-    }
+    }// Reemplaza 'some-ui-library' con la biblioteca de interfaz de usuario que estés utilizando
+
+    const MyComponent = ({ data }) => {
+
+        const conceptoEsMensualidad = data?.concepto?.filter(item => item?.value?.includes('PAGO_MENSUALIDADES'));
+
+        const tableRows = data?.concepto?.map((concepto, index) => (
+            `<tr>
+            <td style="border: 2px solid black; padding: 0.5rem; text-align: center; font-family: Arial, Helvetica, sans-serif;">${index + 1}.00</td>
+            <td style="border: 2px solid black; padding: 0.5rem; text-align: center; font-family: Arial, Helvetica, sans-serif;">${concepto.label}</td>
+            ${conceptoEsMensualidad?.length > 0 ? `<td>${data?.meses?.[index]}</td>` : ''}
+            <td style="border: 2px solid black; padding: 0.5rem; text-align: center; font-family: Arial, Helvetica, sans-serif;">S/${data?.importe}.00</td>
+          </tr>`
+        )).join('');
+
+        const html = `
+          <div>
+            <h4 style="font-size: 13px; margin-top: 0;">Estimado cliente,</h4>
+            <p>Por presente comunicamos que la Institución Educativa María Inmaculada de Arequipa, emisora de comprobantes electrónicos, le ha emitido el siguiente comprobante:</p>
+            <p>Boleta de Pago N°: <span style="font-weight: bold;">${data?.codigo}</span></p>
+            <p>DNI del cliente N°: <span style="font-weight: bold;">${data?.estudiante?.dni}</span></p>
+            <p>Nombre del cliente: <span style="font-weight: bold;">${data?.estudiante?.nombres} ${data?.estudiante?.apellidos}</span></p>
+            <table style="border-collapse: collapse; width: 100%; margin-top: 1rem;">
+                <thead>
+                    <tr>
+                        <th style="border: 2px solid black; padding: 0.5rem; text-align: center; font-family: Arial, Helvetica, sans-serif;">CANTIDAD</th>
+                        <th style="border: 2px solid black; padding: 0.5rem; text-align: center; font-family: Arial, Helvetica, sans-serif;">DESCRIPCIÓN</th>
+                        ${conceptoEsMensualidad?.length > 0 ? `<th style="border: 2px solid black; padding: 0.5rem; text-align: center; font-family: Arial, Helvetica, sans-serif;">MESES</th>` : ''}
+                        <th style="border: 2px solid black; padding: 0.5rem; text-align: center; font-family: Arial, Helvetica, sans-serif;">IMPORTE</th>
+                    </tr>
+                </thead>
+                <tbody>${tableRows}</tbody>
+                <tfoot>
+                    <tr>
+                        ${conceptoEsMensualidad?.length > 0 ? `<th></th>` : ''}
+                        <th></th>
+                        <th style="border: 2px solid black; padding: 0.5rem; text-align: center; font-family: Arial, Helvetica, sans-serif; font-weight: bold;">IGV:</th>
+                        <th style="border: 2px solid black; padding: 0.5rem; text-align: center; font-family: Arial, Helvetica, sans-serif;">S/0.00</th>
+                    </tr>
+                    <tr>
+                        ${conceptoEsMensualidad?.length > 0 ? `<th></th>` : ''}
+                        <th></th>
+                        <th style="border: 2px solid black; padding: 0.5rem; text-align: center; font-family: Arial, Helvetica, sans-serif; font-weight: bold;">IMPORTE TOTAL:</th>
+                        <th style="border: 2px solid black; padding: 0.5rem; text-align: center; font-family: Arial, Helvetica, sans-serif;">S/${data?.importe}.00</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <p>Fecha de emisión: ${data?.createdAt}</p>
+            <p>Para ver el comprobante, haga clic en el siguiente enlace:</p>
+            <p><a href="https://sga-cmi.vercel.app/">Ver comprobante</a></p>
+            <p>Atentamente,</p>
+            <p>Institución Educativa María Inmaculada de Arequipa</p>
+            </div>
+            `;
+        return html;
+    };
 
     const handleSave = (e) => {
         e.preventDefault();
-        dispatch(createPago(indice));
+        dispatch(createPago(indice)).then((data) => {
+            const detallePago = data?.payload;
+            const htmlString = MyComponent({ data: detallePago });
+            if (detallePago?.estudiante?.correo !== '') {
+                const dataSendEmail = {
+                    to: detallePago?.estudiante?.correo,
+                    subject: 'SGA BOLETA DE PAGO - #' + detallePago?.codigo,
+                    html: htmlString,
+                }
+                dispatch(handleSendEmail(dataSendEmail));
+            }
+        })
         setIsModalOpen(false);
         setIndice(initialValues);
         setDatosEstudiante([{}]);
@@ -236,7 +303,7 @@ const ModalRegistrarPago = () => {
     const estudianteOptions = datosEstudiante.map((item) => {
         return {
             value: item._id,
-            label: `🧑‍🎓${item.apellidos}, ${item.nombres} 🎴 ${item.dni} `
+            label: `🧑‍🎓${ item.apellidos }, ${ item.nombres } 🎴 ${ item.dni } `
         }
     });
 
@@ -269,6 +336,7 @@ const ModalRegistrarPago = () => {
                         <ModalHeader textAlign="center">REGISTRAR NUEVO PAGO DE UN ESTUDIANTE</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
+                            {/* <MyComponent /> */}
                             <Stack spacing={4} direction={{ base: "column", lg: "row" }} justifyContent="space-between">
                                 <FormControl isRequired>
                                     <FormLabel fontWeight="semibold">ESTUDIANTE</FormLabel>

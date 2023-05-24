@@ -288,7 +288,6 @@ const BoletaPago = ({ location }) => {
                 display={'flex'}
                 justifyContent={'center'}
                 alignItems={'center'}
-                borderRadius={'2xl'}
                 mt={2}
                 p={10}
             >
@@ -296,7 +295,7 @@ const BoletaPago = ({ location }) => {
                     <Stack direction='column' h={'auto'} w="full" justifyContent="space-evenly" fontFamily={'Arial, Helvetica, sans-serif'} alignItems={'center'} alignSelf={'center'} spacing={4} display={'flex'}>
                         <Stack direction={'row'} justifyContent="space-between" display={'flex'} w="full">
                             <Image objectFit='cover' src={logoIE} maxW={'90px'} fallbackSrc='https://via.placeholder.com/100x100?text=LOGO' alt={pago?.nombre} alignSelf={'center'} />
-                            <Stack direction="column" spacing={8} border={'2px solid black'} _dark={{ border: '2px solid gray' }} p={{ base: 3, lg: 4 }} alignItems={'center'}>
+                            <Stack direction="column" spacing={8} border={'2px solid black'} p={{ base: 3, lg: 4 }} alignItems={'center'}>
                                 <Text fontSize={'20px'} fontWeight={'bold'} fontFamily={'Arial, Helvetica, sans-serif'}>BOLETA ELECTRÓNICA</Text>
                                 {/* <Text fontSize={'14px'}>RUC: S/N</Text> */}
                                 <Text fontSize={'18px'}>N° {pago?.codigo}</Text>
@@ -385,12 +384,6 @@ const BoletaPago = ({ location }) => {
                                         </Tr>
                                     </Tbody>
                                     <Tfoot mt={4}>
-                                        <Tr mt={4}>
-                                            <Th></Th>
-                                            <Th></Th>
-                                            <Th color={'black'} fontWeight={'bold'} fontSize={'md'} fontFamily={'Arial, Helvetica, sans-serif'}> Total Valor de Venta:</Th>
-                                            <Th color={'black'} isNumeric fontSize='sm' fontWeight={'normal'} fontFamily={'Arial, Helvetica, sans-serif'}>S/{pago?.importe}.00</Th>
-                                        </Tr>
                                         <Tr mt={4} border={'2px'}>
                                             <Th></Th>
                                             <Th></Th>

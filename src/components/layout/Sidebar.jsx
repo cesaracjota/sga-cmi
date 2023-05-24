@@ -1,24 +1,23 @@
 import { Box, Flex, Heading, Icon, IconButton, Image, Link, Menu, MenuButton, MenuList, Spacer, MenuItem, Text, Stack, useColorModeValue } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { FaChalkboardTeacher, FaChartPie, FaClipboardCheck, FaQuoteRight, FaUsers, FaVest, FaCog } from "react-icons/fa";
-import { RiBook3Fill, RiComputerFill, RiHome5Fill, RiMapPin4Fill, RiUserStarFill } from "react-icons/ri";
+import { RiBook3Fill, RiComputerFill, RiHomeSmile2Line, RiArrowDownSLine, RiMapPin4Fill, RiUserStarFill } from "react-icons/ri";
 import { MdGrade, MdMonetizationOn, MdScience, MdSettings, MdTableChart } from "react-icons/md";
 import { FcPieChart } from "react-icons/fc";
 import { AddIcon } from "@chakra-ui/icons";
 import { useSelector } from "react-redux";
 import logo from '../../assets/img/logo.svg'
-import { RiArrowDownSLine } from 'react-icons/ri';
 
 export const NavItem = (props) => {
 
-    const bgActiveLinkColor = useColorModeValue("#dcdee1", "#151822");
+    const bgActiveLinkColor = useColorModeValue("gray.800", "gray.800");
 
-    const { icon, children, isSelected, ...rest } = props;
+    const { icon, iconSize, children, isSelected, ...rest } = props;
 
     return (
         <Flex
             align="center"
-            py="8px"
+            py="7px"
             borderRadius={'lg'}
             px={"4px"}
             cursor="pointer"
@@ -36,9 +35,9 @@ export const NavItem = (props) => {
                 <Icon
                     mx="4"
                     ml={{ base: "1", md: "3" }}
-                    fontSize="20px"
+                    fontSize="23px"
                     as={icon}
-                    color={isSelected ? "purple.600" : "inherit"}
+                    color={isSelected ? "purple.500" : "inherit"}
                     {...rest}
                 />
             )}
@@ -51,12 +50,12 @@ function Sidebar({ isOpen }) {
 
     const { user } = useSelector(state => state.auth);
 
-    const activeLinkcolor = useColorModeValue("purple.600", "white");
-    const bgActiveLinkColor = useColorModeValue("#dcdee1", "#151822");
+    const activeLinkcolor = useColorModeValue("white", "white");
+    const bgActiveLinkColor = useColorModeValue("gray.800", "gray.800");
 
     const listIcons = [
         {
-            icon: RiHome5Fill,
+            icon: RiHomeSmile2Line,
             name: "RiHome5Fill",
         },
         {
@@ -149,10 +148,10 @@ function Sidebar({ isOpen }) {
             display={{
                 base: isOpen ? "block" : "none",
             }}
-            bgColor="#f8f9fa"
+            bgColor="primary.1000"
             _dark={{
-                bgColor: "primary.1100",
-                color: "primary.100",
+                bgColor: "primary.1000",
+                color: "white",
                 borderRight: '1px solid rgba(255, 255, 255, 0.1)'
             }}
             borderRight='0.1px solid rgba(0, 0, 0, 0.02)'
@@ -206,10 +205,7 @@ function Sidebar({ isOpen }) {
                             w="40px"
                             h="40px"
                             borderRadius="lg"
-                            borderColor={'gray.200'}
-                            _dark={{
-                                borderColor: 'gray.700'
-                            }}
+                            borderColor={'gray.700'}
                             borderWidth="1px"
                             p={'4px'}
                         >
@@ -226,10 +222,7 @@ function Sidebar({ isOpen }) {
                             <Heading
                                 fontSize="16px"
                                 fontWeight="bold"
-                                color="primary.100"
-                                _dark={{
-                                    color: "white"
-                                }}
+                                color="white"
                                 alignSelf={'start'}
                                 justifySelf={'start'}
                                 textAlign="start"
@@ -238,7 +231,7 @@ function Sidebar({ isOpen }) {
                             </Heading>
                             <Text
                                 fontSize="14px"
-                                color="gray.500"
+                                color="gray.400"
                                 _dark={{
                                     color: "gray.400"
                                 }}
@@ -253,37 +246,49 @@ function Sidebar({ isOpen }) {
                     <Menu>
                         <MenuButton
                             as={IconButton}
-                            icon={<RiArrowDownSLine color={useColorModeValue("black", "white")} fontSize={16} />}
+                            icon={<RiArrowDownSLine fontSize={16} />}
+                            _hover={{
+                                bg: '#252e3e',
+                            }}
+                            border="none"
+                            _active={{
+                                bg: 'transparent',
+                            }}
                             variant='ghost'
+                            colorScheme='gray'
                             rounded="full"
                             alignSelf="center"
                             size="sm"
                         />
                         <MenuList
-                            bg={useColorModeValue("white", "primary.1100")}
-                            color={useColorModeValue('black', 'white')}
+                            bg="#252e3e"
+                            color='white'
+                            borderRadius="none"
+                            borderColor="gray.600"
+                            // border="none"
+                            boxShadow="base"
                             py={0}
                         >
-                            <MenuItem 
-                                bg={useColorModeValue("white", "primary.1100")}
+                            <MenuItem
+                                bg="#252e3e"
                                 _hover={{
-                                    bg: useColorModeValue("gray.300", "primary.1000"),
+                                    bg: "#1c2536",
                                 }}
                             >
                                 EBR
                             </MenuItem>
-                            <MenuItem 
-                                bg={useColorModeValue("white", "primary.1100")}
+                            <MenuItem
+                                bg="#252e3e"
                                 _hover={{
-                                    bg: useColorModeValue("gray.300", "primary.1000"),
+                                    bg: "#1c2536",
                                 }}
                             >
                                 CEBA
                             </MenuItem>
-                            <MenuItem 
-                                bg={useColorModeValue("white", "primary.1100")}
+                            <MenuItem
+                                bg="#252e3e"
                                 _hover={{
-                                    bg: useColorModeValue("gray.300", "primary.1000"),
+                                    bg: "#1c2536",
                                 }}
                             >
                                 RESIDENCIA
@@ -302,8 +307,7 @@ function Sidebar({ isOpen }) {
                                 as={NavLink}
                                 to={item.path}
                                 fontSize={'15px'}
-                                fontWeight={600}
-                                color={'#6c737f'}
+                                fontWeight={'semibold'}color={'gray.400'}
                                 _dark={{
                                     color: 'gray.400',
                                 }}
@@ -313,12 +317,12 @@ function Sidebar({ isOpen }) {
                                     color: activeLinkcolor,
                                     bg: bgActiveLinkColor,
                                     _dark: {
-                                        color: 'purple.600'
+                                        color: 'white'
                                     }
                                 }}
                                 _hover={{ textDecoration: 'none' }}
                             >
-                                <NavItem isSelected={isSelected} icon={item.icono === getIconosNames(item.icono) ? getIconIcons(item.icono) : AddIcon}>{item.titulo}</NavItem>
+                                <NavItem isSelected={isSelected} iconSize={item.iconSize} icon={item.icono === getIconosNames(item.icono) ? getIconIcons(item.icono) : AddIcon}>{item.titulo}</NavItem>
                             </Link>
                         )
                     })
@@ -335,9 +339,7 @@ function Sidebar({ isOpen }) {
                 >
                     {
                         thirdListItem.map((item, index) => {
-
                             const isSelected = item.path === window.location.pathname;
-
                             return (
                                 <Link
                                     key={index}
@@ -345,7 +347,7 @@ function Sidebar({ isOpen }) {
                                     to={item.path}
                                     fontSize={'15px'}
                                     fontWeight={600}
-                                    color={'#6c737f'}
+                                    color={'gray.400'}
                                     _dark={{
                                         color: 'gray.400',
                                     }}

@@ -37,7 +37,7 @@ const Login = () => {
     useEffect(() => {
 
         if (isError) {
-            ToastChakra('Info', message, 'warning', 2500, 'bottom');
+            ToastChakra('Mensaje', message, 'error', 2500, 'bottom');
         }
 
         dispatch(reset());
@@ -82,14 +82,8 @@ const Login = () => {
                                 borderWidth: '1px',
                                 borderColor: 'gray.700',
                             }}
-                            px={{
-                                base: 4,
-                                lg: 8
-                            }}
-                            py={{
-                                base: 20,
-                                lg: 10
-                            }}
+                            px={6}
+                            py={14}
                             rounded="3xl"
                             shadow="lg"
                             maxW="xl"
@@ -116,6 +110,7 @@ const Login = () => {
                                                     value={values.correo}
                                                     _focus={{
                                                         borderColor: 'purple.600',
+                                                        boxShadow: 'none',
                                                     }}
                                                     defaultValue={form.touched.correo}
                                                 />
@@ -133,6 +128,7 @@ const Login = () => {
                                                         value={values.password}
                                                         _focus={{
                                                             borderColor: 'purple.600',
+                                                            boxShadow: 'none',
                                                         }}
                                                         placeholder="Ingrese su contraseña"
                                                     />
@@ -160,6 +156,7 @@ const Login = () => {
                                                     placeholder="Seleccione modalidad"
                                                     _focus={{
                                                         borderColor: 'purple.600',
+                                                        boxShadow: 'none',
                                                     }}
                                                     value={values.modalidad}
                                                     onChange={handleChange}
@@ -197,7 +194,7 @@ const Login = () => {
                                     Iniciar sesión
                                 </Button>
                                 <Stack direction="row" justify="center" fontSize="md">
-                                    <Link as={NavLink} to={'/register'} fontWeight={'semibold'} color="purple.600" textDecoration="none" textAlign={'center'}>
+                                    <Link as={NavLink} to={'/forgot-password'} fontWeight={'semibold'} color="purple.600" textDecoration="none" textAlign={'center'}>
                                         Olvidé mi contraseña
                                     </Link>
                                 </Stack>

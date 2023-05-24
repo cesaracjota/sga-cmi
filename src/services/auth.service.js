@@ -46,6 +46,40 @@ const updateProfile = async (userData, token) => {
     }
 }
 
+// reset password
+
+const forgotPassword = async (data) => {
+    const response = await axios.post(`${baseURL}/auth/forgot-password`, data);
+    if(response.data.ok === true) {
+        ToastChakra('CORREO ENVIADO', 'Se ha enviado un correo electrónico', 'success', 2500, 'bottom');
+    }
+    return response.data;
+}
+
+// reset password
+const resetPassword = async (data) => {
+    const response = await axios.post(`${baseURL}/auth/reset-password`, data);
+    if(response.data.ok === true){
+        ToastChakra('CONTRASEÑA ACTUALIZADA', 'La contraseña se ha actualizado correctamente', 'success', 2500, 'top');
+    }
+    return response.data;
+}
+
+// const resetPassword = (data) => {
+//     return new Promise((resolve, reject) => {
+//         axios
+//             .post(`${baseURL}/auth/reset-password`, data)
+//             .then((response) => {
+//                 ToastChakra('CONTRASEÑA ACTUALIZADA', 'La contraseña se ha actualizado correctamente', 'success', 2500, 'top');
+//                 resolve(response.data);
+//             })
+//             .catch((error) => {
+//                 console.error(error);
+//                 reject(error); // Opcionalmente, puedes rechazar la promesa en caso de error
+//             });
+//     })
+// }
+
 // Logout user
 const logout = () => {
     ToastChakra('CERRANDO SESIÓN ...', 'HASTA PRONTO, TE ESPERAMOS!', 'loading', 2000);
@@ -58,7 +92,9 @@ const authService = {
     register,
     login,
     updateProfile,
-    logout
+    logout,
+    forgotPassword,
+    resetPassword
 }
 
 export default authService;

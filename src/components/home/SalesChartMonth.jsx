@@ -101,7 +101,7 @@ const SalesChartMonth = ({ data }) => {
     ];
 
     return (
-        <Box bg="white" _dark={{ bg: 'primary.1000', color: 'black' }} borderRadius="2xl" boxShadow="base" p="4">
+        <Box bg="white" _dark={{ bg: 'primary.1000', color: 'black' }} borderRadius="2xl" boxShadow="base" p="4" width="full">
             <ReactApexChart
                 options={chartOptions}
                 series={chartSeries}
@@ -109,7 +109,6 @@ const SalesChartMonth = ({ data }) => {
                 height={300}
             />
         </Box>
-
     );
 };
 

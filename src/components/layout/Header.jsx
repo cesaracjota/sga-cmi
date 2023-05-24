@@ -33,7 +33,7 @@ import { FiLogOut } from "react-icons/fi";
 import { FaCog } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState } from "react";
-import { AddIcon, EditIcon, HamburgerIcon, RepeatIcon } from "@chakra-ui/icons";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import { ColorModeSwitcher } from "../../theme/ColorModeSwitcher";
 import { logout } from "../../features/authSlice";
 import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
@@ -194,27 +194,52 @@ function Header({ onToggle, isOpen }) {
                             <Menu>
                                 <MenuButton
                                     as={IconButton}
-                                    icon={<RiArrowDownSLine color={useColorModeValue("black", "white")} fontSize={16} />}
+                                    icon={<RiArrowDownSLine fontSize={16} />}
+                                    _hover={{
+                                        bg: '#252e3e',
+                                    }}
+                                    border="none"
+                                    _active={{
+                                        bg: 'transparent',
+                                    }}
                                     variant='ghost'
+                                    colorScheme='gray'
                                     rounded="full"
                                     alignSelf="center"
                                     size="sm"
                                 />
                                 <MenuList
-                                    bg={useColorModeValue("white", "gray.800")}
-                                    color={useColorModeValue('black', 'white')}
+                                    bg="#252e3e"
+                                    color='white'
+                                    borderRadius="none"
+                                    borderColor="gray.600"
+                                    // border="none"
+                                    boxShadow="base"
+                                    py={0}
                                 >
                                     <MenuItem
-                                        icon={<AddIcon />}
-                                        command='⌘T'
+                                        bg="#252e3e"
+                                        _hover={{
+                                            bg: "#1c2536",
+                                        }}
                                     >
-                                        New Tab
+                                        EBR
                                     </MenuItem>
-                                    <MenuItem icon={<RepeatIcon />} command='⌘⇧N'>
-                                        Open Closed Tab
+                                    <MenuItem
+                                        bg="#252e3e"
+                                        _hover={{
+                                            bg: "#1c2536",
+                                        }}
+                                    >
+                                        CEBA
                                     </MenuItem>
-                                    <MenuItem icon={<EditIcon />} command='⌘O'>
-                                        Open File...
+                                    <MenuItem
+                                        bg="#252e3e"
+                                        _hover={{
+                                            bg: "#1c2536",
+                                        }}
+                                    >
+                                        RESIDENCIA
                                     </MenuItem>
                                 </MenuList>
                             </Menu>

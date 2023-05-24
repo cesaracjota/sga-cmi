@@ -28,8 +28,12 @@ import { BoletaPagoCEBAPage, PagosCEBAPage, PagosCEBAPageDetalles } from '../pag
 import { BoletaPagoRESIDENCIAPage, PagosRESIDENCIAPage, PagosRESIDENCIAPageDetalles } from '../pages/pagos/RESIDENCIA';
 import { ReportesCEBAPage, ReportesEBRPage, ReportesRESIDENCIAPage } from '../pages/reportes';
 import '../styles/globals.css';
+import ForgotPasswordPage from '../pages/auth/ForgotPassword';
+import ResetPasswordPage from '../pages/auth/ResetPassword';
+import PrivateTokenRoutes from './PrivateRoutesToken';
 
 export default function AppRouter() {
+
     return (
         <Routes>
             <Route element={<PrivateRoutes />} >
@@ -112,8 +116,10 @@ export default function AppRouter() {
             </Route>
             <Route element={<PublicRoute />}>
                 <Route path="/login" element={<LoginPage />} />
-                {/* <Route path="/register" element={<RegisterPage />} />
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} /> */}
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/reset-password/:email/:token" element={<PrivateTokenRoutes />}>
+                    <Route path="/reset-password/:email/:token" element={<ResetPasswordPage />} />
+                </Route>
             </Route>
             <Route path="*" element={<NotFoundPage />} />
         </Routes>

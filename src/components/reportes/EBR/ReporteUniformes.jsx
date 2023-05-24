@@ -56,7 +56,7 @@ const ReporteUniformes = ({ reportesEBR, isLoading }) => {
             <Stack
                 boxShadow={'base'}
                 bg="white"
-                _dark={{ bg: "primary.1000" }}
+                _dark={{ bg: "primary.1000", color: 'black' }}
                 rounded={'2xl'}
                 p={6}
                 mt={4}

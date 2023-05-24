@@ -1,114 +1,133 @@
-import React, { useState } from 'react';
-import {
-    Box,
-    Button,
-    Center,
-    FormControl,
-    FormLabel,
-    Heading,
-    Input,
-    Spinner,
-    Stack,
-    Text,
-    HStack,
-    Flex,
-    Image,
-    InputGroup,
-    InputLeftElement,
-} from '@chakra-ui/react';
-import {  useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { ToastChakra } from '../../helpers/toast';
-import bgCardAuth from '../../assets/img/bgAuth.webp';
-import { FaRegUser } from 'react-icons/fa';
+import { Box, Button, Flex, FormControl, Heading, Input, Link, Stack, Text } from "@chakra-ui/react";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { ToastChakra } from "../../helpers/toast";
+import { useState } from "react";
+import bgGradient from '../../assets/img/gradient-bg.svg';
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { forgotPassword } from "../../features/authSlice";
 
 const ForgotPasswordPage = () => {
 
-    const [correo, setCorreo] = useState('');
-    const { isLoading } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const handleResetPassword = () => {
-        if (!correo) {
-            ToastChakra('Atención', 'Ingrese su correo', 'error', 1500, 'top-right');
-        } else {
-            ToastChakra('Atención', 'Se ha enviado un correo para restablecer su contraseña', 'success', 1500, 'top-right');
+    const initialValues = {
+        correo: '',
+    };
+
+    const validationSchema = Yup.object({
+        correo: Yup.string().email('Ingrese un correo válido').required('El correo es requerido'),
+    });
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleRecuperarContraseña = async (values) => {
+        setIsSubmitting(true);
+        try {
+            const data = {
+                correo: values.correo,
+            }
+            const response = await dispatch(forgotPassword(data));
+            console.log(response);
+            if (response?.payload?.ok === true) {
+                navigate(`/reset-password/${response.payload.correo}/${response.payload.emailToken}`);
+            } else {
+                console.log("error")
+                ToastChakra('Mensaje', response?.payload?.msg, 'error', 2500, 'bottom');
+            }
+        } catch (error) {
+            console.error(error);
+            ToastChakra('Info', 'Error al enviar el correo de recuperación', 'error', 2500, 'bottom');
         }
-    }
+        setIsSubmitting(false);
+    };
 
-    const content = (isLoading) ? (
-        <Center h={'100vh'} w={'full'}>
-            <Stack spacing={4} px={4} direction="column" align={'center'}>
-                <Text fontSize="xl" fontWeight="bold">
-                    {' '}
-                    Iniciando Sesión ...{' '}
-                </Text>
-                <Spinner
-                    thickness="4px"
-                    speed="0.5s"
-                    emptyColor="gray.200"
-                    color="purple.500"
-                    size="xl"
-                />
-            </Stack>
-        </Center>
-    ) : (
-        <HStack spacing={2} w={'full'} h={'100vh'} px={{ base: 4, lg: 28}} py={{base: 14, lg: 20}}>
-            <Flex w="full" h="full" display={{ base: 'none', lg: 'flex'}}>
-                <Box justifyContent="center" w="full">
-                        <Image
-                            objectFit={'cover'}
-                            w={'full'}
-                            h={'full'}
-                            src={bgCardAuth}
-                            rounded={'lg'}
-                        />
-                </Box>
-            </Flex>
-            <Flex w="full" h="full">
-                <Box borderWidth={1} w="full" h="full" px={{ base : 8, lg: 10}} mr={2} bg="white" _dark={{ bg: 'primary.900'}} alignItems={'center'} justifyContent={'center'} borderRadius="lg" boxShadow={'base'}>
-                    <Stack w="full" h="full" spacing={4} alignItems="center" justifyContent="center">
-                        <Image src="https://react-material.fusetheme.com/assets/images/logo/logo.svg" w={16} />
-                        <Heading textAlign={'center'} fontSize="xl" fontWeight="bold" mt={2}>
-                            Sistema de Administración de una API
-                        </Heading>
-                        <FormControl id="email">
-                            <FormLabel mt={4}>Correo Electrónico</FormLabel>
-                            <InputGroup>
-                                <InputLeftElement
-                                    pointerEvents="none"
-                                    color="gray.500"
-                                    _dark={{ color: 'gray.400' }}
-                                    children={ <FaRegUser color="gray.500" fontSize={18} /> }
-                                />
-                                <Input
-                                    type="email"
-                                    placeholder='Ingrese su correo electrónico'
-                                    onChange={(e) => setCorreo(e.target.value)}
-                                />
-                            </InputGroup>
-                        </FormControl>
-                        <FormControl>
-                            <Button
-                                w="full"
-                                colorScheme={'messenger'}
-                                _dark={{ bg: "messenger.500", color: "white", _hover: { bg: "messenger.700" } }}
-                                onClick={handleResetPassword}
-                            >
-                                Enviar
-                            </Button>
-                        </FormControl>
-                        <NavLink to="/login">
-                            <Text fontSize="sm" color="gray.600" _dark={{ color: 'gray.400'}}>
-                                Regresar a login
-                            </Text>
-                        </NavLink>
-                    </Stack>
-                </Box>
-            </Flex>
-        </HStack>
+    return (
+        <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleRecuperarContraseña}
+            enableReinitialize={true}
+        >
+            {() => (
+                <Form>
+                    <Flex
+                        align="center"
+                        justify="center"
+                        minHeight="100vh"
+                        bgImage={bgGradient}
+                        bgSize="cover"
+                        bgPosition="center"
+                        bgRepeat="no-repeat"
+                    >
+                        <Box
+                            bg="white"
+                            _dark={{
+                                bg: "gray.800",
+                                borderWidth: '1px',
+                                borderColor: 'gray.700',
+                            }}
+                            px={8}
+                            py={10}
+                            rounded="3xl"
+                            shadow="lg"
+                            maxW="xl"
+                            w="full"
+                        >
+                            <Stack spacing={6}>
+                                <Box textAlign="start">
+                                    <Heading fontSize="2xl" fontWeight="black">Recuperar Contraseña</Heading>
+                                    <Text fontSize="md">Sistema de Gestión Administrativa</Text>
+                                </Box>
+                                <Field name="correo">
+                                    {({ field, form }) => (
+                                        <FormControl isInvalid={form.errors.correo && form.touched.correo}>
+                                            <Input
+                                                {...field}
+                                                type="email"
+                                                placeholder="Ingrese su correo electrónico"
+                                                _focus={{
+                                                    borderColor: 'purple.600',
+                                                    boxShadow: 'none',
+                                                }}
+                                            />
+                                            <ErrorMessage name="correo" component={Text} color="red.500" fontSize="sm" mt={1} />
+                                        </FormControl>
+                                    )}
+                                </Field>
+                                <Button
+                                    colorScheme="purple"
+                                    _dark={{
+                                        bg: 'purple.600',
+                                        color: 'white',
+                                        _hover: {
+                                            bg: 'purple.700',
+                                        },
+                                    }}
+                                    fontSize="md"
+                                    fontWeight="bold"
+                                    w="full"
+                                    borderRadius="xl"
+                                    type="submit"
+                                    isLoading={isSubmitting}
+                                    disabled={isSubmitting}
+                                    loadingText="Enviando..."
+                                    spinnerPlacement="end"
+                                >
+                                    Enviar Correo de Recuperación
+                                </Button>
+                                <Box textAlign="center">
+                                    <Link as={NavLink} to="/login" color="purple.600" fontWeight="bold">Iniciar Sesión</Link>
+                                </Box>
+                            </Stack>
+                        </Box>
+                    </Flex>
+                </Form>
+            )}
+        </Formik>
     );
-
-    return content;
 };
 
 export default ForgotPasswordPage;

@@ -5,10 +5,9 @@ export function Loading() {
     return (
         <Flex
             w="100%"
-            h="80vh"
+            h="75vh"
             alignItems="center"
             justifyContent="center"
-
         >
             <RiseLoader 
                 color="#645CAA"
