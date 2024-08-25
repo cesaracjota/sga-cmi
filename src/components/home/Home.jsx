@@ -26,6 +26,10 @@ import { FiArrowRight } from 'react-icons/fi';
 import { TableComponent } from './TableComponent';
 import moment from 'moment';
 import SalesChartMonth from './SalesChartMonth';
+import ICONDAY from '../../assets/icons/v-dia.png';
+import ICONWEEK from '../../assets/icons/v-semana.png';
+import ICONMONTH from '../../assets/icons/v-mes.png';
+import ICONYEAR from '../../assets/icons/v-anio.png';
 
 const Home = () => {
 
@@ -131,25 +135,25 @@ const columns = [
             montoRecaudado={reportePagos?.totalVentasDia}
             textHeader="Total Recaudado de Hoy"
             textButton="Ver"
-            cardImage="https://material-kit-pro-react.devias.io/assets/iconly/iconly-glass-tick.svg"
+            cardImage={ICONDAY}
           />
           <CardHome
             montoRecaudado={reportePagos?.totalVentasSemana}
             textHeader="Total Recaudado de la Semana"
             textButton="Ver"
-            cardImage="https://material-kit-pro-react.devias.io/assets/iconly/iconly-glass-info.svg"
+            cardImage={ICONWEEK}
           />
           <CardHome
             montoRecaudado={reportePagos?.totalVentasMes}
             textHeader="Total Recaudado del Mes"
             textButton="Ver"
-            cardImage="https://material-kit-pro-react.devias.io/assets/iconly/iconly-glass-paper.svg"
+            cardImage={ICONMONTH}
           />
           <CardHome
             montoRecaudado={reportePagos?.totalVentasAnio}
             textHeader="Total Recaudado del Año"
             textButton="Ver"
-            cardImage="https://material-kit-pro-react.devias.io/assets/iconly/iconly-glass-discount.svg"
+            cardImage={ICONYEAR}
           />
         </SimpleGrid>
         <Divider />

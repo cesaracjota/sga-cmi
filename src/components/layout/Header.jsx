@@ -317,6 +317,8 @@ function DrawerExample({ user }) {
     const firstField = useRef();
     const dispatch = useDispatch();
 
+    console.log(user);
+
     const lightenDarkenColor = (colorCode, amount) => {
 
         let usePound = false;
@@ -366,7 +368,7 @@ function DrawerExample({ user }) {
     return (
         <>
             <Avatar
-                src={user?.img}
+                // src={user?.img}
                 name={user?.nombre}
                 ignoreFallback={true}
                 onClick={onOpen}
